@@ -1,0 +1,963 @@
+Machine :  is on the remote box 
+
+https://labs.vinsys.com 
+
+git 
+jenkins 
+docker 
+sonarqube 
+python scripting 
+maven/gradle/other tools 
+nexus 
+selinium 
+jmeter / similar tools 
+visual studio code, vsttuio, intellij , eclipse 
+java/c++/node/python /powershells 
+networking 
+cloud /aws/azure / heroku 
+gitlab 
+many other tools 
+nagios/zabbix/
+-----------------------------------------------------------------------------------------
+cloud access 
+machine access 
+code access 
+
+https://vinsysit.signin.aws.amazon.com/console
+===========================================================================================
+1. ---->  Build tools
+				init 
+				clean
+				compile 
+				test 	///  unit test cases/ code coverage / code sanity 
+				package 	// zip/jar/cab
+				install 	----> install locally 
+				deploy  ----> puus t0 nexus 
+
+				dependency management 
+
+
+				customization 
+
+				git / svn / anyt pluing 
+
+
+				documentation (Site from the xml + xsl = html )
+
+
+
+2. ---->  Version tools 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Why did i choose jenkins ? 
+Ample plugins 
+Has enterprise support (CloudBees)
+Supports Master / Worker 
+Jenkins has good Dahsboards 
+Jenkins Support gradle. Maven , msbuild, docker , sonarqube , jacoco , 
+FREE 
+It runs on java 
+platform agnostic 
+jenkins supports custoization 
+------------------------------------------------------------------------------------------
+
+jenkins installer : - 
+
+Jenkins ---> FreeStyleBuilds , Pipeline Builds 
+a) Jenkins and Configuration 
+b) Jenkins and Plugins 
+c) Jenkins and Tools 
+d) Jenkins and Workers 
+e) Jenkins and WebHook 
+f) Jenkins and Secuirty 
+g) Jenkins and Dashboards 
+
+
+the default Port for Jenkins is 8080: 
+
+http://localhost:8080/  
+	username : 
+
+
+
+
+https://github.com/nileshdevdas/siemensdevops1.git
+
+http://localhost:8080/generic-webhook-trigger/invoke?token=siemensdevops1
+
+
+code coverage plugin ---> 
+
+https://github.com/nileshdevdas/siemensdevops1.git
+
+
+Sonar Qube 
+Community 
+
+//for deploy and upload 
+https://localhost:8444/repository/siemenshosted/
+
+
+// for downloads 
+https://localhost:8444/repository/siemensintrarepo/
+
+
+
+<repositories>
+		<repository>
+			<id>siemensintrarepot</id>
+			<url>https://localhost:8444/repository/siemensintrarepo/</url>
+		</repository>
+	</repositories>
+
+
+
+how to enable ssl nexus :- 
+
+nexus is written in java --> 
+Java guidelines of enablein ssl 
+1) you will need to create a keystore file (Jks file )
+
+keytool -genkey -alias nexus -keystore keystore.jks -storepass root123 -keypass root123 -keyalg rsa  
+
+it will interactive the CN (Commoan Name ) : localhost
+
+rest is optional 
+ y /n 
+
+
+
+Docker for Windows (Windows 10 Professional , Windows 2016) 
+You can create windows containers ? 
+.net applications 
+docker is headless (means no ui )
+tcp/ip is a valid appliction docker 
+
+DOcker is available on windows only and only if you enable  Container 
+if its a windows container (Container feature )
+Where is this feature 
+
+Can i run docker on windows with linux containers ? 
+Yes provided you have HyperVm installed 
+it create MobyLinux VM on teh HyberVM 
+
+
+
+Docker for Linux
+
+
+docker lifecyle 
+
+docker pull ---> it goes to the local cache check if the image exist 
+if it exists it uses same else goes to remot reporistory and pulls 
+
+I can go to the docker configuration and configure the nexus location like i configure 
+the same in settings.xml ---> and pom.xml
+
+docker pull   <imageName>:<tag>
+
+docker pull   nileshvinsys:1
+
+Docker pull does not start, create , run a container 
+it simply pulls and caches the image 
+
+
+Image is set of layers 
+
+docker pull pulls images and cacheds them locally 
+but if you wish to list all the locally cached images 
+
+docker images 
+
+-------------------------------------------------------------------------------------
+to remove a image from local cache 
+
+docker rmi  <imageName> | <imageId> 
+
+docker images cannot be removed if the image container attache to it 
+
+------------------------------------------------------------------------------------
+How to search a remote images  
+
+docker search  imageName 
+
+return images from your (Nexus if configured or remote docker hub )
+
+========================================================================================
+How to create a container ----> 
+docker create  --name <containerName> <imageName> | <imageId> 
+
+A docker create only creates  container and does not start it ---> 
+a created container is always in stopped state 0-> 
+
+=======================================================================================
+how to start a container 
+to start a container 
+
+docker start <containerName>| <containerId> 
+docker start does not create a new container and start a existing available container 
+
+---------------------------------------------------------------------------------------
+
+docker run  --name containerName  imageName | imageId ---> 
+
+a) pull a image 
+b) create container 
+c) start the container 
+
+=======================================================================================
+how do i stop a container 
+docker stop <containerName>| <ContainerId>
+
+========================================================================================
+Every container has  ENTRYPOINT ---> 
+
+when the container starts :-= the app starts 
+the cotnainer goes donwn the app goes donw 
+
+
+if a container does not have anything to do and if the app goes down the container 
+also stops : 
+---------------------------------------------------------------------------------------
+how do i delete a container 
+
+docker rm  <containerName> | <containerid>
+
+---------------------------------------------------------------------------------------
+how do i know the details of my container e.g ip, its entrypoint , its config its cpu , its storage folder , its blah blah 
+
+docker inspect  containerName | containerId 
+when you do a docker inspect on a running container you will extra details as compared 
+to the docker stopped container 
+---------------------------------------------------------------------------------------
+
+how do i see the health of my docker container ? 
+docker stats <containerId>   | <containerName> 
+this means that the docker container memory,cpu, processes (top)
+
+---------------------------------------------------------------------------------------
+how do i create my own images :- 
+a) manual 
+	1) Pull a image 
+	2)  create container 
+	3)  go inside the container 
+	4) make necessary change and copy necessary files 
+	5) commit the container ---> Makes the container get converted in to a image 
+	6) but this is still a local images ---> not available to other 
+	//// docker tag the image has be tagged property 
+	7) docker push to push this 
+
+b) automated 
+	 i will need to create file Dockerfile 
+	 	FROM  someimage 
+	 	ADD   myfiels 
+	 	EXEC  some Comands 
+	 	EXPOSE some ports 
+	 	ENTRYPOINT  myappstart 
+
+	 	what do i do with this file 
+	 		docker build -f Dockerfile -t tagname 
+
+	 			this will build the image 
+
+
+
+----------------------------------------------------------------------------------------
+How can i go inside a (Running) container 
+You can enter only a running container 
+	docker exec  -it  cointainerId|containerName  sh | 
+
+but if you remove -it and just run the cmd will run a
+-----------------------------------------------------------------------------------------
+
+How can i copy a file from or to a container 
+
+from local to container 
+docker cp  myfile containerid:path 
+
+docker cp conatinerid:path  myfile 
+-----------------------------------------------------------------------------------------
+How can i export a image and import it to anothe machine ---> without a repo 
+
+docker export imageid  > whateverfileName.ext 
+
+docker import  filename.ext 
+
+------------------------------------------------------------------------------------------
+
+docker info 
+
+over information of my docker 
+a) how many container 
+b) how many running 
+c) how many stoped 
+d) how many images 
+e) how mych storage 
+f)  how much utilized 
+
+----------------------------------------------------------------------------------------
+How to check the logs of my container and follow 
+
+docker logs -f containerid | containerName 
+
+------------------------------------------------------------------------------------------
+how to find all running containers ? 
+docker ps 
+
+how to find all container Running + stopped 
+docker ps -a 
+
+-----------------------------------------------------------------------------------------
+
+
+
+
+
+i want to run my application :- 
+java 
+
+
+
+
+
+docker pull sebp/elk
+
+
+
+
+
+1. the Dockerfile ---> Should be Dockerfile 
+it does not have any extentions 
+
+2. it is a simple  text ascii file 
+
+what does it containe 
+
+FROM  fomr which image you want to create your image 
+
+incase you dont want to inherit image scratch 
+
+FROM scratch ---> you will need to install all the software 
+
+FROM   whichalready has everyting you want 
+
+
+
+FROM stakater/java8-alpine
+ADD  myapp.jar   myapp.jar 
+EXPOSE 8080 
+ENTRYPOINT java -jar myapp.jar 
+
+
+
+1. Create a directory in your c: drive and call it 
+	dockerbuilddemo 
+
+2. in this folder i want you to put a new file Dockerfile
+
+3. contents of the file : 
+
+FROM stakater/java8-alpine
+ADD  myapp.jar   myapp.jar 
+EXPOSE 8080 
+ENTRYPOINT java -jar myapp.jar 
+
+
+
+How to enable seamless webhooks for the implementations of 
+the  Code Commit Resulting in  a build : 
+
+1. Enable the WebHook Trigger plugin in your build 
+
+
+
+
+
+
+
+
+http://support.vinsys.com:8081/generic-webhook-trigger/invoke?token=triggerdemo
+
+
+Step 1 :
+--------
+you have a build that build has webhook trigger enabled 
+
+form your url  
+
+
+http://support.vinsys.com:<yourport>/generic-webhook-trigger/invoke?token=<token>
+
+
+
+
+IaaS 
+
+PaaS
+ Docker platform 
+ RDS 
+
+
+Serverless 
+	Lambda 
+	SAM 
+
+
+Heroku  (sales Force Cloud)
+Google Cloud 
+Azure 
+Digital Ocean 
+Ali Cloud 
+Oracle Cloud 
+IBM Cloud 
+
+------------------------------------------------------------------------------------------1. no infrastructure investment (pay as you go and if you dont like shutdown)
+2. Certified  systems 
+3. Certified engineer availibility 
+4. Use what you want and pay for what you want 182 
+5. its an api 
+6. it has sdk 
+7. infrastructure and services as code 
+8. monitoring enabled 
+9. it has regions and it has availibilit zones 
+10. it has tight security and IAM Policy advising 
+11. it has alerts on you billing 
+12. the service are even for developes, productions as well as test 
+13. aws does not support machine other then x86 Architeture 
+14. fault tolerance 
+--------------------------------------------------------------------------------------
+
+CSP Lockin 
+
+
+
+
+AWS :- 
+
+1. Regions 
+
+2. AZ 
+
+3. Edge Locations  
+
+
+AWS : 
+VPC (Virtualized Networking)
+a) Ip /CIDR Blocks 
+b) Internet gateways 
+c) VPN 
+
+
+VLANS 
+
+EBS : 
+Elastic Block Storage 
+
+a) i can choose a region 
+b) in a region its not mandatory to have all the services 
+c) in the region i decide to use a service  : 
+	
+	EC2 : 
+		---> Compute service 
+
+		AMI :- Amazon Machine Image 
+
+		Docker 											 AWS 
+	a)  Image 											AMI 
+	b)  container  										Instance 
+	c)  Docker engine 									AWS Stack 
+	d)  Container->image           						Instance - >image (Snapshot)
+    e)  Docker hub 										marketplace 
+    f)  Kubernates 	 									Elastic load balancer 
+    g)  VirtualNetwork 									VPC 
+    h)  Portmapping  									natting and Lb 
+    i)  no firewall										Security Groups 
+    j)  readymade images 								readymade ami 
+    													Supports docker (ECS)
+
+
+i need the following things 
+
+a) Instance 
+b) AMI 
+c) Security Groups 
+d) EBS 
+e) VPC 
+f) Snapshots 
+g) LoadBalancer 
+h) Internetgateways/VPN 
+i) Cloudwatch
+j) S3 
+===========================
+
+
+
+
+1. I will run a build 
+2. i will run test cases 
+3. i will run sonarqube 
+4. generate the other reports 
+5.  docker build 
+
+
+
+
+C:\tools\jmeter\bin\jmeter.bat -Jjmeter.save.saveservice.output_format=xml -n -t testplan.jmx 
+
+Pipeline require your flows to be developed 
+
+
+
+
+What to monitor ? 
+
+
+
+
+
+
+
+
+sudo docker run --name myelk  -p 5601:5601 -p 9200:9200 -p 5044:5044 -it sebp/elk
+
+
+
+
+
+sudo yum install epel-release
+sudo yum install ansible -y 
+
+
+choclatey 
+Set-ExecutionPolicy Bypass -Scope Process -Force; `
+iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+nilesh.devdas@outlook.com 
+-----------------------------
+nilesh.devdas@vinsys.com 
+
+
+
+
+Exam : 
+https://testmate.vinsys.com:443/exam/devops2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
