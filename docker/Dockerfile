@@ -1,5 +1,5 @@
 FROM stakater/java8-alpine
 ADD  myapp.jar   myapp.jar 
-EXPOSE 8080 
+EXPOSE 7077
 ENTRYPOINT java -jar myapp.jar 
 
